@@ -1,0 +1,1 @@
+terraform plan -out=tfplan -input=false && terraform apply "tfplan"
