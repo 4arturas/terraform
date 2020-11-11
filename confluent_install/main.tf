@@ -3,34 +3,75 @@ variable "master_node_ip" {
   default = "192.168.56.10"
   description = ""
 }
+resource "null_resource" install_confluent_on_centos7 {
 
-variable "worker_node_ip" {
-  type = string
-  default = "192.168.56.11"
-  description = ""
-}
+  provisioner "remote-exec" {
+    inline = [
+      "systemctl stop firewalld",
+      "systemctl disable firewalld",
+      "sudo yum update -y",
+      "sudo yum install curl which -y",
+      "sudo rpm --import https://packages.confluent.io/rpm/6.0/archive.key",
+      "touch /etc/yum.repos.d/confluent.repo",
+    ]
+  }
 
-variable "token" {
-  type = string
-  default = "K10c8a531d52b27bc220d2127f737ed905a46db1b8c2b49ac99f5b2f2dfa7756438::server:10529cbff02c82f97502b85d6da20ac5"
-  description = ""
-}
+  provisioner "file" {
+    source      = "confluent.repo"
+    destination = "/etc/yum.repos.d/confluent.repo"
+  }
 
-resource "null_resource" "server" {
-  provisioner "local-exec" {
-    command = "D:/kafka_2.13-2.6.0/bin/windows/zookeeper-server-start.bat D:/kafka_2.13-2.6.0/config/zookeeper.properties"
-    interpreter = ["PowerShell", "-Command"]
+
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo yum clean all && sudo yum install confluent-platform -y",
+      "sudo yum install java-11-openjdk-devel -y",
+      "confluent-hub install --no-prompt confluentinc/kafka-connect-datagen:latest"
+    ]
   }
-}
-resource "null_resource" "node1" {
-  provisioner "local-exec" {
-    command = "D:/kafka_2.13-2.6.0/bin/windows/kafka-server-start.bat D:/kafka_2.13-2.6.0/config/server-1.properties"
-    interpreter = ["PowerShell", "-Command"]
+
+  provisioner "remote-exec" {
+    inline = [
+      "nohup /usr/bin/zookeeper-server-start /etc/kafka/zookeeper.properties > zookeeper.out",
+      "nohup /usr/bin/kafka-server-start /etc/kafka/server.properties > server.out",
+      "nohup /usr/bin/schema-registry-start /etc/schema-registry/schema-registry.properties > schema-registry.out",
+      "nohup /usr/bin/control-center-start /etc/confluent-control-center/control-center.properties > control-center.out",
+      "nohup /usr/bin/connect-distributed /etc/schema-registry/connect-avro-distributed.properties > connect-avro-distributed.out",
+      "nohup /usr/bin/kafka-rest-start /etc/kafka-rest/kafka-rest.properties > kafka-rest.out",
+      "nohup /usr/bin/ksql-server-start /etc/ksqldb/ksql-server.properties > ksql-server.out",
+    ]
   }
-}
-resource "null_resource" "node2" {
-  provisioner "local-exec" {
-    command = "D:/kafka_2.13-2.6.0/bin/windows/kafka-server-start.bat D:/kafka_2.13-2.6.0/config/server-2.properties"
-    interpreter = ["PowerShell", "-Command"]
+/*  provisioner "file" {
+    source      = "zookeeper.properties"
+    destination = "/etc/kafka/zookeeper-MY.properties"
+  }*/
+/*
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo systemctl enable confluent-zookeeper",
+      "sudo systemctl start confluent-zookeeper",
+      "sudo systemctl status confluent-zookeeper"
+    ]
   }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo systemctl enable confluent-server",
+      "sudo systemctl start confluent-server",
+      "sudo systemctl status confluent-server"
+    ]
+  }
+*/
+
+
+  connection {
+    host     = "192.168.56.10"
+    type     = "ssh"
+    user     = "root"
+    password = "x"
+    agent    = "false"
+  }
+
 }
