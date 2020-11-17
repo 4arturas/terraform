@@ -35,7 +35,9 @@ resource "null_resource" k3s_master {
   provisioner "remote-exec" {
     inline = [
 	  "hostnamectl set-hostname master.art.local",
-	  "cat <<EOF > /etc/hosts\n127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4\n::1         localhost localhost.localdomain localhost6 localhost6.localdomain6\n\n192.168.56.10 master.art.local master\n192.168.56.11 node1.art.local node1\n192.168.56.12 node2.art.local node2\nEOF",
+      "echo \"192.168.56.10 master.art.local master\" >> /etc/hosts",
+      "echo \"192.168.56.11 node1.art.local node1\" >> /etc/hosts",
+      "echo \"192.168.56.12 node2.art.local node2\" >> /etc/hosts",
       "/usr/local/bin/k3s-uninstall.sh",
       "curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC=\"--node-ip=${var.master_node_ip} --flannel-iface=enp0s8\" sh -"
     ]
