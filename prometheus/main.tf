@@ -7,7 +7,6 @@ variable "master_node_ip" {
 
 resource "null_resource" java_install {
 
-/*
 
   // install helm
   provisioner "remote-exec" {
@@ -30,7 +29,6 @@ resource "null_resource" java_install {
       // http://192.168.56.10:30947
     ]
   }
-*/
 
   // install gafana
   provisioner "remote-exec" {
