@@ -18,8 +18,8 @@ resource "null_resource" java_install {
     inline = [
       "wget https://download.java.net/openjdk/jdk11/ri/${var.java_file}",
       "tar -xzf ${var.java_file}",
-	  "mkdir /usr/java/jdk-11",
-	  "mv jdk-11/ /usr/java/",
+	  "mkdir -p /usr/java/jdk-11",
+	  "mv jdk-11 /usr/java/",
       "echo \"\" >> ~/.bash_profile",
       "echo \"export JAVA_HOME=/usr/java/jdk-11\" >> ~/.bash_profile",
       "echo \"export PATH=\\$JAVA_HOME/bin:\\$PATH\" >> ~/.bash_profile",
