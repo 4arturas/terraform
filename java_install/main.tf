@@ -4,14 +4,20 @@ variable "master_node_ip" {
   description = ""
 }
 
+variable "java_file" {
+  type = string
+  default = "openjdk-11+28_linux-x64_bin.tar.gz"
+  description = ""
+}
+
 
 resource "null_resource" java_install {
 
 
   provisioner "remote-exec" {
     inline = [
-      "wget https://download.java.net/openjdk/jdk11/ri/openjdk-11+28_linux-x64_bin.tar.gz",
-      "tar -xzf openjdk-11+28_linux-x64_bin.tar.gz",
+      "wget https://download.java.net/openjdk/jdk11/ri/${var.java_file}",
+      "tar -xzf ${var.java_file}",
 	  "mkdir /usr/java/jdk-11",
 	  "mv jdk-11/ /usr/java/",
       "echo \"\" >> ~/.bash_profile",
