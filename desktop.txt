@@ -1,0 +1,14 @@
+yum install git -y
+
+
+useradd
+passwd
+
+yum -y groups install "GNOME Desktop"
+startx
+systemctl set-default graphical.target
+
+echo "exec gnome-session" >> ~/.xinitrc
+startx
+
+yum -y groups install "KDE Plasma Workspaces"
