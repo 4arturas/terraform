@@ -11,13 +11,13 @@ variable "worker_node_ip" {
 
 variable "K3S_VERSION" {
   type = string
-  default = "v1.18.12+k3s1"
+  default = "v1.20.2-rc1+k3s1"
   description = ""
 }
 
 variable "token" {
   type = string
-  default = "K10abd4b74fdc73b61fdbf6d673a16321f19c9e2b65c435272a2cbe095578e0b186::server:924c9b48a1b865237fd4c16e9172c3ae"
+  default = "K107a49ae322313aab0016cfa2416dc102137f4533b77c7453b4f541f39368915d3::server:2d2a83d78249d9e7e1e747f55452475d"
   description = ""
 }
 
