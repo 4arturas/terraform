@@ -16,6 +16,7 @@ resource "null_resource" java_install {
       "mv linux-amd64/helm /usr/local/bin/helm",
     ]
   }
+/*
 
   // install prometheus
   provisioner "remote-exec" {
@@ -46,6 +47,7 @@ resource "null_resource" java_install {
       // UI http://192.168.56.10:31214/dashboard/import -> "Create" -> "Import" -> "6417" -> "Select Prometheus data source"
     ]
   }
+*/
 
   connection {
     host     = "${var.master_node_ip}"
