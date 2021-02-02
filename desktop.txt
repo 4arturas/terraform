@@ -1,0 +1,21 @@
+yum install git -y
+
+git clone https://github.com/4arturas/terraform.git
+
+cd terraform/
+
+mv zipas.txt cis-lbk_centos7_bmv3.0.0.tar.gz
+
+tar -xzf cis-lbk_centos7_bmv3.0.0.tar.gz
+
+cd CIS-LBK/CENTOS7_LBK/
+
+
+useradd
+passwd
+
+yum -y groups install "GNOME Desktop"
+
+
+startx
+systemctl set-default graphical.target
