@@ -9,9 +9,12 @@ resource "null_resource" redis {
       "sysctl vm.overcommit_memory=1",
       "echo never > /sys/kernel/mm/transparent_hugepage/enabled",
       "cp /etc/redis.conf /etc/redis.conf.orig",
+      "echo \"bind 192.168.56.10\" >> /etc/redis.conf",
       "systemctl start redis",
       "systemctl enable redis",
       "systemctl status redis"
+      // yum install net-tools
+      // netstat -tlpn
       // test redis: redis-cli
       // redis-cli
       // > client list
