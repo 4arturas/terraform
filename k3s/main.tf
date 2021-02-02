@@ -6,7 +6,7 @@ variable "master_node_ip" {
 
 variable "K3S_VERSION" {
   type = string
-  default = "v1.18.12+k3s1"
+  default = "v1.20.2-rc1+k3s1"
   description = ""
 }
 
